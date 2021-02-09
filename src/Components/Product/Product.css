@@ -1,0 +1,23 @@
+.product-container{
+    display: flex;
+    margin-top: 20px;
+    border-bottom: 1px solid lightgray;
+}
+
+.product-details{
+    margin-left: 10px;
+}
+.product-details a{
+    text-decoration: none;
+}
+.cartBtn{
+    width: 120px;
+    height: 30px;
+    background:orange;
+    margin-bottom: 10px;
+    border: 1px solid yellow;
+    border-radius: 5px;
+}
+.cartBtn:hover{
+    background-color: cyan;
+}

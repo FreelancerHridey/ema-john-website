@@ -1,0 +1,10 @@
+.reviewBtn{
+    width: 120px;
+    height: 30px;
+    background-color: orange;
+    border: 1px solid yellowgreen;
+    border-radius: 5px;
+}
+.reviewBtn:hover{
+    background-color: cyan; 
+}

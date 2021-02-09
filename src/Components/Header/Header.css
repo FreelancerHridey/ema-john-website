@@ -1,0 +1,36 @@
+
+.header-container{
+    text-align: center;
+}
+.logo img{
+    height: 80px;
+    margin-bottom: 30px;
+}
+nav{
+    background: #000;
+    height: 40px;
+}
+nav a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 20px;
+    padding: 5px;
+    position: relative;
+    top: 9px;
+    border-radius: 5px;
+}
+nav a:hover{
+    background: lightgray;
+    color: #000;
+}
+.search-area{
+    height: 60px;
+    background:rgb(37, 34, 34);
+}
+.search-area input {
+    width: 70%;
+    margin-top: 15px;
+    font-size: 20px;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+}
