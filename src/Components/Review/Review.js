@@ -3,17 +3,16 @@ import fakeData from '../../fakeData';
 import { getDatabaseCart, processOrder, removeFromDatabaseCart } from '../../utilities/databaseManager';
 import Cart from '../Cart/Cart';
 import ReviewItem from '../ReviewItem/ReviewItem';
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import placeOrderImg from '../../images/giphy.gif'
 
 const Review = () => {
    const [cart, setCart] = useState([])
    const [placeOrder, setPlaceOrder] = useState(false);
-
-   const placeOrderHandler = () =>{
-       setCart([])
-        setPlaceOrder(true);
-       processOrder();
+   const history = useHistory();
+   
+   const proceedCheckHandler = () =>{
+       history.push('/shipment')
    }
    useEffect( ()=>{
        const saveCart = getDatabaseCart()
@@ -30,7 +29,7 @@ const Review = () => {
             setCart(newCart)
             removeFromDatabaseCart(productKey);
    }
-   const thankYou = <img src={placeOrderImg} />
+   const thankYou =  <img src={placeOrderImg} />
     return (
         <div>
            <h1 style={{textAlign:"center"}}>Your Product Review here</h1>
@@ -51,8 +50,8 @@ const Review = () => {
                 </div>
                 <div className="cart-container">
                     <Cart cart={cart}>
-                        <Link ><button onClick={placeOrderHandler} className="cartBtn"
-                         >Place Order</button></Link>     
+                        <Link ><button onClick={proceedCheckHandler} className="cartBtn"
+                         >Proceed Checkout</button></Link>     
                     </Cart>
                 </div>
            </div>
