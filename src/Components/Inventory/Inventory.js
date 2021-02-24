@@ -1,9 +1,29 @@
 import React from 'react';
+import fakeData from '../../fakeData'
+
+
 
 const Inventory = () => {
+    const product = {};
+    const addProductHandler =()=> {
+        fetch('http://localhost:5000/addProduct',{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(product)
+        })
+    }
+
     return (
         <div>
-            <h1>Inventory is to be empty right now</h1> 
+            <form action="">
+                <p><span>Name: </span><input type="text"  placeholder="Enter Product name"  /></p>
+                <p><span>Price: </span><input type="text" placeholder="Enter Product price"  /></p>
+                <p><span>Quantity: </span><input type="text"  placeholder="Enter Product quantity"  /></p>
+                <p><span>Product Image: </span><input type="file"/></p>
+                <button onClick={addProductHandler}>Add product</button>
+            </form>
         </div>
     );
 };

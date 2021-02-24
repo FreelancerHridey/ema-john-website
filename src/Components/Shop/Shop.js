@@ -1,17 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom'
-import fakeData from '../../fakeData'
 import Product from '../Product/Product'
 import Cart from '../Cart/Cart'
 import './Shop.css'
 import { addToDatabaseCart, getDatabaseCart } from '../../utilities/databaseManager';
 
 const Shop = () => {
-    const [product] = useState(fakeData.slice(0,10))
+    const [products, setProducts] = useState([])
     const [cart, setCart] = useState([]);
 
-    const clickHandler = (product) =>{
 
+    useEffect(()=>{
+        fetch('http://localhost:5000/products')
+        .then(res => res.json())
+        .then(result => setProducts(result))
+    },[])
+
+        const clickHandler = (product) =>{
         const sameProduct = cart.find(pd=>pd.key === product.key)
             const count = 1;
             let newCart ;
@@ -31,18 +36,20 @@ const Shop = () => {
     useEffect(()=>{
         const saveProduct =  getDatabaseCart();
         const productKeys = Object.keys(saveProduct);
-        const previewsKeys = productKeys.map(exitingKeys => {
-            const product = fakeData.find(pd => pd.key === exitingKeys);
-            product.quantity = saveProduct[exitingKeys];
-            return product;
-        })
-        setCart(previewsKeys);
-    }, [])
+            if(products.length > 0) {
+                const previewsKeys = productKeys.map(exitingKeys => {
+                    const product = products.find(pd => pd.key === exitingKeys);
+                    product.quantity = saveProduct[exitingKeys];
+                    return product;
+                })
+            setCart(previewsKeys);
+        }        
+    }, [products])
     return (
         <div className="shop-container">
             <div className="shop">
                 {
-                    product.map(product => <Product 
+                    products.map(product => <Product 
                         showAddToCart={true}
                         key={product.key} 
                         product={product}

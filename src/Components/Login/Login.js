@@ -100,7 +100,7 @@ const [newUser, setNewUser] = useState(false);
  }
     return(
       <div style={{textAlign:"center"}}>
-          {user.isSingIn? <button onClick={singOutGoogle}>sign Out google</button> :
+          {user.isSingIn ? <button onClick={singOutGoogle}>sign Out google</button> :
                           <button onClick={singInGoogle}>sign in google</button> }
           {user.isSingIn ? <button onClick={FacebookSignOut}>sign out facebook</button> : 
           <button onClick={FacebookSignIn}>sign in facebook</button>}

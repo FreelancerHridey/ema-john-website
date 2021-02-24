@@ -1,33 +1,46 @@
 import React, { useContext, useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
 import { UserContext } from '../../App';
+import { getDatabaseCart, processOrder } from '../../utilities/databaseManager';
+import { useForm } from 'react-hook-form';
+import './Shipment.css'
 
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    '& > *': {
-      margin: theme.spacing(1,2),
-      width: '25ch',
-      textAlign: "center",
-    },
-    
-  },
-}));
 
 const Shipment = () => {
-    const classes = useStyles();
     const [loggedInUser, setLoggedInUser] = useContext(UserContext)
+    const { register, handleSubmit, watch, errors } = useForm();
+    
+    const onSubmit = data => {
+      const saveCart = getDatabaseCart();
+      const orderDetails = {...loggedInUser, products: saveCart, shipment: data, orderTime: new Date()}
+      
+      fetch('http://localhost:5000/addOrder',{
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(orderDetails)
+      })
+      .then(res => res.json())
+      .then(data => {
+
+        if(data){
+          processOrder();
+          alert("your order is successfully");
+        }
+      })
+
+    };
+  
+    console.log(watch("example")); 
+  
     return (
-        <div  className={classes.root}>
-            <form styles={{marginLeft: "100px" }} className={classes.root} noValidate autoComplete="off">
-                <TextField id="standard-basic" defaultValue={loggedInUser.name} label="Enter your name" />
-                <TextField id="standard-basic" defaultValue={loggedInUser.email} label="Enter your email address" />
-                <TextField id="standard-basic" label="Enter phone number" />
-                <Button variant="contained" color="primary">Submit</Button>
-            </form>
-        </div>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <input name="example" defaultValue={loggedInUser.name} ref={register} placeholder="Enter your name" /><br/>
+        <input name="email" defaultValue={loggedInUser.email} ref={register({ required: true })} placeholder="Enter your email" /><br/>
+        <input name="address" ref={register({ required: true })} placeholder="Enter your address" /><br/>
+        <input name="phone" ref={register({ required: true })} placeholder="Enter your phone" /><br/>
+        {errors.exampleRequired && <span className="error" >This field is required</span>}
+        
+        <input type="submit" />
+      </form>
     );
 };
 
